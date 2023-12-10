@@ -7,6 +7,10 @@ public class SearchModel {
     private String dateEntre;
     private String dateSortie;
 
+    public SearchModel() {
+
+    }
+
     public SearchModel(String emailClient, String emailMedecin, int sejourId, String dateEntre, String dateSortie) {
         this.emailClient = emailClient;
         this.emailMedecin = emailMedecin;

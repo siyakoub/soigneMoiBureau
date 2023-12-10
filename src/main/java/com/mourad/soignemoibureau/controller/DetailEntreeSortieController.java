@@ -15,26 +15,6 @@ import java.util.ResourceBundle;
 
 public class DetailEntreeSortieController implements Initializable {
 
-    @FXML
-    private TableView<SearchModel> entreeSortieModelTableView;
-
-    @FXML
-    private TableColumn<SearchModel, String> emailClient;
-
-    @FXML
-    private TableColumn<SearchModel, String> emailMedecin;
-
-    @FXML
-    private TableColumn<SearchModel, Integer> SejourId;
-
-    @FXML
-    private TableColumn<SearchModel, String> dateEntree;
-
-    @FXML
-    private TableColumn<SearchModel, String> dateSortie;
-
-    ObservableList<SearchModel> searchModelObservableList = FXCollections.observableArrayList();
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
 

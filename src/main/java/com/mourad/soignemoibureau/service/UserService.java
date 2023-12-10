@@ -20,20 +20,28 @@ public class UserService extends AbstractApiService {
     private Gson gson = new Gson();
 
     public UserModel getUserById(int id) {
-        try{
+        try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(baseUrl + "user/users" + id))
+                    .uri(URI.create(baseUrl + "user/users/" + id))  // Ajout du slash manquant
                     .GET()
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            UserModel user = gson.fromJson(response.body(), UserModel.class);
-            return user;
+
+            if (response.statusCode() == 200) {
+                UserModel user = gson.fromJson(response.body(), UserModel.class);
+                return user;
+            } else {
+                // Gérer les autres codes de statut HTTP
+                System.out.println("Réponse HTTP non réussie: " + response.statusCode());
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
 
     public List<UserModel> getAllUsers() {
         try {
