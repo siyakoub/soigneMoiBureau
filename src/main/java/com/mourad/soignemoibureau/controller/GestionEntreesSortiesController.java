@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import com.mourad.soignemoibureau.service.UserService;
 import com.mourad.soignemoibureau.service.MedecinService;
 import com.mourad.soignemoibureau.service.SejourService;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.List;
@@ -59,10 +60,13 @@ public class GestionEntreesSortiesController implements Initializable {
             for (SejourModel sejour : sejours) {
                 // Récupération des informations utilisateur et médecin
                 UserModel userInfo = userService.getUserById(sejour.getUserId());
+                System.out.println("sejour : " + sejour.getUserId());
+                System.out.println("User_id : " + userInfo.getUserEmail());
+                System.out.println("Medecin Id : " + sejour.getMedecinId());
                 MedecinModel medecinInfo = medecinService.getMedecinById(sejour.getMedecinId());
 
                 // Vérifiez que userInfo et medecinInfo ne sont pas null avant de les utiliser
-                if (userInfo != null && medecinInfo != null) {
+                if (medecinInfo != null) {
                     // Création de l'objet SearchModel
                     SearchModel searchModel = new SearchModel();
                     searchModel.setEmailClient(userInfo.getUserEmail());
@@ -76,7 +80,11 @@ public class GestionEntreesSortiesController implements Initializable {
                     searchModelObservableList.add(searchModel);
                 }
             }
-
+            emailClient.setCellValueFactory(new PropertyValueFactory<>("emailClient"));
+            emailMedecin.setCellValueFactory(new PropertyValueFactory<>("emailMedecin"));
+            sejourId.setCellValueFactory(new PropertyValueFactory<>("sejourId"));
+            dateHeureDebut.setCellValueFactory(new PropertyValueFactory<>("dateEntre"));
+            dateHeureFin.setCellValueFactory(new PropertyValueFactory<>("dateSortie"));
             // Associez l'ObservableList au TableView
             tableEntreeSortieid.setItems(searchModelObservableList);
         }

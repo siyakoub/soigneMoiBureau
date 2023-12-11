@@ -1,13 +1,16 @@
 package com.mourad.soignemoibureau.service;
+import java.lang.reflect.Type;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mourad.soignemoibureau.model.MedecinModel;
+import com.mourad.soignemoibureau.model.UserModel;
 
 public class MedecinService extends AbstractApiService {
 
@@ -22,8 +25,20 @@ public class MedecinService extends AbstractApiService {
                     .GET()
                     .build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            MedecinModel medecin = gson.fromJson(response.body(), MedecinModel.class);
-            return medecin;
+            if (response.statusCode() == 200) {
+                String responseBody = response.body().trim();
+
+                // Création d'un type pour la réponse enveloppée
+                Type responseType = new TypeToken<Map<String, MedecinModel>>(){}.getType();
+                Map<String, MedecinModel> responseMap = gson.fromJson(responseBody, responseType);
+                return responseMap.get("medecin");
+            } else if (response.statusCode() == 404) {
+                System.out.println("Erreur HTTP : " + response.statusCode());
+                return null;
+            } else {
+                System.out.println("Erreur HTTP : " + response.statusCode());
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;

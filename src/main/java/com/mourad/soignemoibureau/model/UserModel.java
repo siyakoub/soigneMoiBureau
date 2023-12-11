@@ -1,15 +1,26 @@
 package com.mourad.soignemoibureau.model;
+import com.google.gson.annotations.SerializedName;
 
 public class UserModel {
+    @SerializedName("user_id")
     private int userId;
+    @SerializedName("name")
     private String userName;
+    @SerializedName("firstName")
     private String userFirstName;
+    @SerializedName("address")
     private String userAddress;
+    @SerializedName("zipCode")
     private int userZipCode;
+    @SerializedName("city")
     private String userCity;
+    @SerializedName("email")
     private String userEmail;
+    @SerializedName("password")
     private String userPassword;
+    @SerializedName("userType")
     private String userType; // Médecin, Client, Administrateur
+    @SerializedName("actif")
     private int userActif;
 
     public UserModel() {

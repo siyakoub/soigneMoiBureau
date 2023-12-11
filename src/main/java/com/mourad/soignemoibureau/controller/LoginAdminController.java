@@ -26,19 +26,23 @@ public class LoginAdminController {
 
     @FXML
     private void login(ActionEvent event) {
-        String email = emailAdmin.getText();
-        String password = AdPass.getText();
+        try {
+            String email = emailAdmin.getText();
+            String password = AdPass.getText();
 
-        Map<String, Object> adminData = userService.login(email, password);
+            Map<String, Object> adminData = userService.login(email, password);
 
-        if (adminData != null) {
-            // Stocker les données de l'administrateur si nécessaire
-            // ...
+            if (adminData != null) {
+                // Stocker les données de l'administrateur si nécessaire
+                // ...
 
-            // Naviguer vers GestionEntreesSorties
-            navigateToGestionEntreesSorties(event);
-        } else {
-            // Échec de la connexion
+                // Naviguer vers GestionEntreesSorties
+                navigateToGestionEntreesSorties(event);
+            } else {
+                // Échec de la connexion
+                showLoginError();
+            }
+        } catch (Exception e) {
             showLoginError();
         }
     }

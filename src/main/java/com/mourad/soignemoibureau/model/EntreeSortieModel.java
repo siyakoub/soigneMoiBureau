@@ -1,11 +1,18 @@
 package com.mourad.soignemoibureau.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class EntreeSortieModel {
 
+    @SerializedName("entresortie_id")
     private int entreesortieId;
+    @SerializedName("user_id")
     private int userId;
+    @SerializedName("sejour_id")
     private int sejourId;
+    @SerializedName("dateEntre")
     private String dateEntree;
+    @SerializedName("dateSortie")
     private String dateSortie;
 
     public EntreeSortieModel() {

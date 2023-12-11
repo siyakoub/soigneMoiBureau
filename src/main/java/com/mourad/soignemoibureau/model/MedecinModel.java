@@ -1,10 +1,15 @@
 package com.mourad.soignemoibureau.model;
+import com.google.gson.annotations.SerializedName;
+
 
 public class MedecinModel extends UserModel {
-
+    @SerializedName("medecin_id")
     private int medecinId;
+    @SerializedName("matricule")
     private int matricule;
+    @SerializedName("limitCustomer")
     private int limitCustomer;
+    @SerializedName("speciality")
     private String speciality;
 
     public MedecinModel() {

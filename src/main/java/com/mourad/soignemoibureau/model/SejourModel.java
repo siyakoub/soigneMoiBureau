@@ -1,12 +1,20 @@
 package com.mourad.soignemoibureau.model;
+import com.google.gson.annotations.SerializedName;
 
 public class SejourModel {
+    @SerializedName("sejour_id")
     private int sejourId;
+    @SerializedName("user_id")
     private int userId;
+    @SerializedName("medecin_id")
     private int medecinId;
+    @SerializedName("dateDebut")
     private String dateDebut; // format datetime
+    @SerializedName("dateFin")
     private String dateFin; // format datetime, peut être null
+    @SerializedName("motif")
     private String motif;
+    @SerializedName("speciality")
     private String speciality; // Chirurgie, Consultation, Urgence, Autopsie, Autre
 
     public SejourModel() {

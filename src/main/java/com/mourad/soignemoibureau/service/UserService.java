@@ -2,8 +2,9 @@ package com.mourad.soignemoibureau.service;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.mourad.soignemoibureau.model.AdminModel;
+import com.mourad.soignemoibureau.model.SejourModel;
 import com.mourad.soignemoibureau.model.UserModel;
-
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -29,11 +30,19 @@ public class UserService extends AbstractApiService {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                UserModel user = gson.fromJson(response.body(), UserModel.class);
-                return user;
+                String responseBody = response.body().trim();
+
+                // Création d'un type pour la réponse enveloppée
+                Type responseType = new TypeToken<Map<String, UserModel>>(){}.getType();
+                Map<String, UserModel> responseMap = gson.fromJson(responseBody, responseType);
+
+                // Retourner l'utilisateur
+                return responseMap.get("user");
+            } else if (response.statusCode() == 404) {
+                System.out.println("User Réponse HTTP non réussie :" + response.statusCode());
+                return null;
             } else {
-                // Gérer les autres codes de statut HTTP
-                System.out.println("Réponse HTTP non réussie: " + response.statusCode());
+                System.out.println("Réponse HTTP non réussie : " + response.statusCode());
                 return null;
             }
         } catch (Exception e) {

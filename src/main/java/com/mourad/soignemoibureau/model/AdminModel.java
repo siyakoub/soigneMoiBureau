@@ -1,8 +1,12 @@
 package com.mourad.soignemoibureau.model;
 
-public class AdminModel extends UserModel{
+import com.google.gson.annotations.SerializedName;
 
+
+public class AdminModel extends UserModel{
+    @SerializedName("admin_id")
     private int adminId;
+    @SerializedName("adminRole")
     private String adminRole;
 
     public AdminModel() {
