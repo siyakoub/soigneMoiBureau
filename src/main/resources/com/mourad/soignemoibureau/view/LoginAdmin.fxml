@@ -11,11 +11,11 @@
 <?import javafx.scene.control.PasswordField?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mourad.soignemoibureau.controller.LoginAdminController">
    <children>
-      <AnchorPane prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #0FD13B;">
+      <AnchorPane fx:id="myAnchorPane" style="-fx-background-color: #0FD13B;">
          <children>
             <ImageView fitHeight="123.0" fitWidth="151.0" layoutX="89.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../resources/com/mourad/soignemoibureau/images/logo.png" />
+                  <Image url="@../../../../../java/com/mourad/soignemoibureau/images/logo.png" />
                </image>
             </ImageView>
             <Label layoutX="9.0" layoutY="185.0" text="Connexion Administrateur" textFill="WHITE">

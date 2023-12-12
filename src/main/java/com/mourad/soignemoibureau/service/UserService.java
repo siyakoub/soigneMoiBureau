@@ -97,10 +97,47 @@ public class UserService extends AbstractApiService {
         }
     }
 
+    public Boolean logout(String token) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + "user/users/logout"))
+                    .header("Content-Type", "application/json")
+                    .header("token", token)
+                    .DELETE()
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                Map<String, Object> responseBody = gson.fromJson(response.body(), new TypeToken<Map<String, Object>>(){}.getType());
+                Boolean isDeconnected = (Boolean) responseBody.get("deconnected");
+                if (isDeconnected != null && isDeconnected) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (response.statusCode() == 404) {
+                return null;
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erreur de connexion réseau : " + e.getMessage());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("La requête a été interrompue : " + e.getMessage());
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erreur de traitement JSON : " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erreur : " + e.getMessage());
+        }
+    }
+
     public Map<String, Object> login(String email, String password) {
         try {
-            System.out.println(email);
-            System.out.println(password);
             String loginJson = gson.toJson(Map.of("email", email, "password", password, "userType", "Administrateur"));
 
             HttpRequest request = HttpRequest.newBuilder()
@@ -110,14 +147,13 @@ public class UserService extends AbstractApiService {
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Response from server: " + response.body());
 
             if (response.statusCode() == 200) {
                 Map<String, Object> responseBody = gson.fromJson(response.body(), new TypeToken<Map<String, Object>>(){}.getType());
 
                 Boolean isConnected = (Boolean) responseBody.get("connected");
                 if (isConnected != null && isConnected) {
-                    return (Map<String, Object>) responseBody.get("administrateur");
+                    return responseBody;
                 } else {
                     throw new Exception("Connexion échouée, les informations de l'utilisateur ne sont pas valides.");
                 }

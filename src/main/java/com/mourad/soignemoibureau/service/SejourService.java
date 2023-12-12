@@ -47,8 +47,6 @@ public class SejourService extends AbstractApiService {
                 String responseBody = response.body().trim(); // Nettoyage de la réponse si nécessaire
                 Type responseType = new TypeToken<Map<String, List<SejourModel>>>(){}.getType();
                 Map<String, List<SejourModel>> responseMap = gson.fromJson(responseBody, responseType);
-                // Log de la réponse brute pour le débogage
-                System.out.println("Réponse du serveur : " + responseMap.get("Sejours"));
                 return responseMap.get("Sejours");
             } else {
                 System.out.println("Erreur HTTP : " + response.statusCode());

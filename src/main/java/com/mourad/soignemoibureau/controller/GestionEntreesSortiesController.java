@@ -1,13 +1,15 @@
 package com.mourad.soignemoibureau.controller;
 
-import com.mourad.soignemoibureau.model.MedecinModel;
-import com.mourad.soignemoibureau.model.SearchModel;
-import com.mourad.soignemoibureau.model.SejourModel;
-import com.mourad.soignemoibureau.model.UserModel;
+import com.mourad.soignemoibureau.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -16,13 +18,17 @@ import com.mourad.soignemoibureau.service.UserService;
 import com.mourad.soignemoibureau.service.MedecinService;
 import com.mourad.soignemoibureau.service.SejourService;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class GestionEntreesSortiesController implements Initializable {
+
+    private Map<String, Object> adminData;
 
     @FXML
     public TableColumn<SearchModel, String> emailClient;
@@ -49,6 +55,10 @@ public class GestionEntreesSortiesController implements Initializable {
 
     ObservableList<SearchModel> searchModelObservableList = FXCollections.observableArrayList();
 
+    public void setAdminData(Map<String, Object> adminData) {
+        this.adminData = adminData;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         SejourService sejourService = new SejourService();
@@ -60,9 +70,6 @@ public class GestionEntreesSortiesController implements Initializable {
             for (SejourModel sejour : sejours) {
                 // Récupération des informations utilisateur et médecin
                 UserModel userInfo = userService.getUserById(sejour.getUserId());
-                System.out.println("sejour : " + sejour.getUserId());
-                System.out.println("User_id : " + userInfo.getUserEmail());
-                System.out.println("Medecin Id : " + sejour.getMedecinId());
                 MedecinModel medecinInfo = medecinService.getMedecinById(sejour.getMedecinId());
 
                 // Vérifiez que userInfo et medecinInfo ne sont pas null avant de les utiliser
@@ -87,6 +94,37 @@ public class GestionEntreesSortiesController implements Initializable {
             dateHeureFin.setCellValueFactory(new PropertyValueFactory<>("dateSortie"));
             // Associez l'ObservableList au TableView
             tableEntreeSortieid.setItems(searchModelObservableList);
+        }
+    }
+
+    @FXML
+    public void logout(ActionEvent event) {
+        try {
+            System.out.println("Logout preparation : " + adminData);
+            if (adminData != null){
+                String token = (String)((Map<String, Object>) adminData.get("sessions")).get("token");
+                Boolean isDeconnected = userService.logout(token);
+                if (isDeconnected != null && isDeconnected) {
+                    System.out.println(SessionData.getInstance().getAdminData());
+                    navigateToLoginAdmin(event);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void navigateToLoginAdmin(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mourad/soignemoibureau/view/LoginAdmin.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Page Connexion");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
