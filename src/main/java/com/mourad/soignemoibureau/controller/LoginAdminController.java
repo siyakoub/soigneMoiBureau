@@ -31,14 +31,13 @@ public class LoginAdminController implements Initializable {
     @FXML
     private PasswordField AdPass;
 
-    private UserService userService = new UserService();
+    private final UserService userService = new UserService();
 
     @FXML
     private void login(ActionEvent event) {
         try {
             String email = emailAdmin.getText();
             String password = AdPass.getText();
-
             Map<String, Object> adminData = userService.login(email, password);
 
             if (adminData != null) {

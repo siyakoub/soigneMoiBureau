@@ -100,12 +100,10 @@ public class GestionEntreesSortiesController implements Initializable {
     @FXML
     public void logout(ActionEvent event) {
         try {
-            System.out.println("Logout preparation : " + adminData);
             if (adminData != null){
                 String token = (String)((Map<String, Object>) adminData.get("sessions")).get("token");
                 Boolean isDeconnected = userService.logout(token);
                 if (isDeconnected != null && isDeconnected) {
-                    System.out.println(SessionData.getInstance().getAdminData());
                     navigateToLoginAdmin(event);
                 }
             }
