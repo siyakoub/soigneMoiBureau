@@ -13,6 +13,7 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
+            System.setProperty("prism.forceGPU", "true");
             // Charger le fichier FXML pour la vue LoginAdmin
             Parent root = FXMLLoader.load(getClass().getResource("/com/mourad/soignemoibureau/view/LoginAdmin.fxml"));
 

@@ -9,8 +9,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="myAnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mourad.soignemoibureau.controller.LoginAdminController">
+<AnchorPane fx:id="myAnchorPane" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mourad.soignemoibureau.controller.LoginAdminController">
+
    <children>
+      <!-- Header Pane -->
       <AnchorPane prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #0FD13B;">
          <children>
             <ImageView fitHeight="123.0" fitWidth="151.0" layoutX="89.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
@@ -25,10 +29,16 @@
             </Label>
          </children>
       </AnchorPane>
+
+      <!-- Login Form -->
       <Label layoutX="366.0" layoutY="119.0" text="E-mail" />
       <TextField fx:id="emailAdmin" layoutX="366.0" layoutY="147.0" />
+
       <PasswordField fx:id="AdPass" layoutX="366.0" layoutY="215.0" />
       <Label layoutX="365.0" layoutY="192.0" text="Mot de passe" />
-      <Button fx:id="loginButton" layoutX="364.0" layoutY="278.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="160.0" style="-fx-background-color: #0FD13B;" text="Connexion" textFill="WHITE" onAction="#login"/>
+
+      <Button fx:id="loginButton" layoutX="364.0" layoutY="278.0" mnemonicParsing="false"
+              prefHeight="26.0" prefWidth="160.0" style="-fx-background-color: #0FD13B;"
+              text="Connexion" textFill="WHITE" onAction="#login" />
    </children>
 </AnchorPane>
